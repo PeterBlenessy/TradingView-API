@@ -1,4 +1,4 @@
-const TradingView = require('../main');
+import TradingView from '../main';
 
 /**
  * This example creates charts of custom types such as 'HeikinAshi', 'Renko',
@@ -10,8 +10,8 @@ const client = new TradingView.Client({
     Token and signature are only required if you want to use
     intraday timeframes (if you have a paid TradingView account)
   */
-  token: process.env.SESSION,
-  signature: process.env.SIGNATURE,
+  token: import.meta.env.VITE_SESSION,
+  signature: import.meta.env.VITE_SIGNATURE,
 });
 
 const chart = new client.Session.Chart();

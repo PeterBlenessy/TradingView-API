@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import TradingView from '../main';
 import utils from './utils';
 
-const token = process.env.SESSION as string;
-const signature = process.env.SIGNATURE as string;
+const token = import.meta.env.VITE_SESSION as string;
+const signature = import.meta.env.VITE_SIGNATURE as string;
 
 describe.skipIf(!token || !signature)('Authenticated actions', () => {
   it('gets user info', async () => {

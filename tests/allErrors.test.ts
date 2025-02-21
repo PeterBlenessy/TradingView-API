@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import TradingView from '../main';
 
-const token = <string>process.env.SESSION;
-const signature = <string>process.env.SIGNATURE;
+const token = <string>import.meta.env.VITE_SESSION;
+const signature = <string>import.meta.env.VITE_SIGNATURE;
 
 describe('AllErrors', () => {
   const waitForError = (instance: any, next = () => {}) => new Promise<string[]>((resolve) => {
