@@ -1,5 +1,3 @@
-const WebSocket = require('ws');
-
 const misc = require('./miscRequests');
 const protocol = require('./protocol');
 
@@ -256,17 +254,17 @@ module.exports = class Client {
       this.sendQueue();
     }
 
-    this.#ws.on('open', () => {
+    this.#ws.addEventListener('open', () => {
       this.#handleEvent('connected');
       this.sendQueue();
     });
 
-    this.#ws.on('close', () => {
+    this.#ws.addEventListener('close', () => {
       this.#logged = false;
       this.#handleEvent('disconnected');
     });
 
-    this.#ws.on('message', (data) => this.#parsePacket(data));
+    this.#ws.addEventListener('message', (event) => this.#parsePacket(event.data));
   }
 
   /** @type {ClientBridge} */

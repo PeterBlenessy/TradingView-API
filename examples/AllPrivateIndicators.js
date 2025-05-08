@@ -1,16 +1,16 @@
-const TradingView = require('../main');
+import TradingView from '../main';
 
 /**
  * This example creates a chart with all user's private indicators
  */
 
-if (!process.env.SESSION || !process.env.SIGNATURE) {
+if (!import.meta.env.VITE_SESSION || !import.meta.env.VITE_SIGNATURE) {
   throw Error('Please set your sessionid and signature cookies');
 }
 
 const client = new TradingView.Client({
-  token: process.env.SESSION,
-  signature: process.env.SIGNATURE,
+  token: import.meta.env.VITE_SESSION,
+  signature: import.meta.env.VITE_SIGNATURE,
 });
 
 const chart = new client.Session.Chart();

@@ -1,17 +1,17 @@
-const TradingView = require('../main');
+import TradingView from '../main';
 
 /**
  * This example tests fetching chart data of a number
  * of candles before or after a timestamp
  */
 
-if (!process.env.SESSION || !process.env.SIGNATURE) {
+if (!import.meta.env.VITE_SESSION || !import.meta.env.VITE_SIGNATURE) {
   throw Error('Please set your sessionid and signature cookies');
 }
 
 const client = new TradingView.Client({
-  token: process.env.SESSION,
-  signature: process.env.SIGNATURE,
+  token: import.meta.env.VITE_SESSION,
+  signature: import.meta.env.VITE_SIGNATURE,
 });
 
 const chart = new client.Session.Chart();

@@ -1,5 +1,4 @@
-const axios = require('axios');
-const { genAuthCookies } = require('../utils');
+import { genAuthCookies } from '../utils';
 
 /**
  * @typedef {Object} AuthorizationUser
@@ -44,18 +43,20 @@ class PinePermManager {
    */
   async getUsers(limit = 10, order = '-created') {
     try {
-      const { data } = await axios.post(
+      const response = await fetch(
         `https://www.tradingview.com/pine_perm/list_users/?limit=${limit}&order_by=${order}`,
-        `pine_id=${this.pineId.replace(/;/g, '%3B')}`,
         {
+          method: 'POST',
           headers: {
             origin: 'https://www.tradingview.com',
             'Content-Type': 'application/x-www-form-urlencoded',
             cookie: genAuthCookies(this.sessionId, this.signature),
           },
+          body: `pine_id=${this.pineId.replace(/;/g, '%3B')}`,
         },
       );
 
+      const data = await response.json();
       return data.results;
     } catch (e) {
       throw new Error(e.response.data.detail || 'Wrong credentials or pineId');
@@ -70,26 +71,28 @@ class PinePermManager {
    */
   async addUser(username, expiration = null) {
     try {
-      const { data } = await axios.post(
+      const response = await fetch(
         'https://www.tradingview.com/pine_perm/add/',
-        `pine_id=${
-          this.pineId.replace(/;/g, '%3B')
-        }&username_recip=${
-          username
-        }${
-          expiration && expiration instanceof Date
-            ? `&expiration=${expiration.toISOString()}`
-            : ''
-        }`,
         {
+          method: 'POST',
           headers: {
             origin: 'https://www.tradingview.com',
             'Content-Type': 'application/x-www-form-urlencoded',
             cookie: genAuthCookies(this.sessionId, this.signature),
           },
+          body: `pine_id=${
+            this.pineId.replace(/;/g, '%3B')
+          }&username_recip=${
+            username
+          }${
+            expiration && expiration instanceof Date
+              ? `&expiration=${expiration.toISOString()}`
+              : ''
+          }`,
         },
       );
 
+      const data = await response.json();
       return data.status;
     } catch (e) {
       throw new Error(e.response.data.detail || 'Wrong credentials or pineId');
@@ -104,26 +107,28 @@ class PinePermManager {
    */
   async modifyExpiration(username, expiration = null) {
     try {
-      const { data } = await axios.post(
+      const response = await fetch(
         'https://www.tradingview.com/pine_perm/modify_user_expiration/',
-        `pine_id=${
-          this.pineId.replace(/;/g, '%3B')
-        }&username_recip=${
-          username
-        }${
-          expiration && expiration instanceof Date
-            ? `&expiration=${expiration.toISOString()}`
-            : ''
-        }`,
         {
+          method: 'POST',
           headers: {
             origin: 'https://www.tradingview.com',
             'Content-Type': 'application/x-www-form-urlencoded',
             cookie: genAuthCookies(this.sessionId, this.signature),
           },
+          body: `pine_id=${
+            this.pineId.replace(/;/g, '%3B')
+          }&username_recip=${
+            username
+          }${
+            expiration && expiration instanceof Date
+              ? `&expiration=${expiration.toISOString()}`
+              : ''
+          }`,
         },
       );
 
+      const data = await response.json();
       return data.status;
     } catch (e) {
       throw new Error(e.response.data.detail || 'Wrong credentials or pineId');
@@ -137,18 +142,20 @@ class PinePermManager {
    */
   async removeUser(username) {
     try {
-      const { data } = await axios.post(
+      const response = await fetch(
         'https://www.tradingview.com/pine_perm/remove/',
-        `pine_id=${this.pineId.replace(/;/g, '%3B')}&username_recip=${username}`,
         {
+          method: 'POST',
           headers: {
             origin: 'https://www.tradingview.com',
             'Content-Type': 'application/x-www-form-urlencoded',
             cookie: genAuthCookies(this.sessionId, this.signature),
           },
+          body: `pine_id=${this.pineId.replace(/;/g, '%3B')}&username_recip=${username}`,
         },
       );
 
+      const data = await response.json();
       return data.status;
     } catch (e) {
       throw new Error(e.response.data.detail || 'Wrong credentials or pineId');
@@ -156,4 +163,4 @@ class PinePermManager {
   }
 }
 
-module.exports = PinePermManager;
+export default PinePermManager;

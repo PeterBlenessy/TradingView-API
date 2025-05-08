@@ -1,11 +1,11 @@
-const { PinePermManager } = require('../main');
+import { PinePermManager } from '../main';
 
 /**
  * This example creates a pine permission manager
  * and tests all the available functions
  */
 
-if (!process.env.SESSION || !process.env.SIGNATURE) {
+if (!import.meta.env.VITE_SESSION || !import.meta.env.VITE_SIGNATURE) {
   throw Error('Please set your sessionid and signature cookies');
 }
 
@@ -16,8 +16,8 @@ if (!pineid) throw Error('Please specify a pine id as first argument');
 console.log('Pine ID:', pineid);
 
 const manager = new PinePermManager(
-  process.env.SESSION,
-  process.env.SIGNATURE,
+  import.meta.env.VITE_SESSION,
+  import.meta.env.VITE_SIGNATURE,
   pineid,
 );
 
